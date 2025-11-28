@@ -1,1 +1,1 @@
-this folder contains the cart application
+this folder contains the cart mvn project
