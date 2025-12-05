@@ -8,5 +8,5 @@ import lombok.Data;
 public class LoginValidationResponseDTO {
     private boolean isMember;
     private Long userId;
-    private String email;
+    private String userName;
 }

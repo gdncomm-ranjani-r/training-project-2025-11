@@ -8,4 +8,5 @@ import com.demo.member.DTO.MemberResponseDTO;
 public interface MemberService {
     MemberResponseDTO register(MemberRegisterRequestDTO request);
     LoginValidationResponseDTO login(LoginRequestDTO request);
+    MemberResponseDTO getProfile(Long userId);
 }

@@ -2,9 +2,11 @@ package com.demo.product.DTO;
 
 import lombok.Data;
 
-@Data
-public class BookListFilterDTO {
+import java.io.Serializable;
 
+@Data
+public class BookListFilterDTO implements Serializable  {
+    private static final long serialVersionUID = 1L;
     private String title;
     private String author;
     private String publisher;

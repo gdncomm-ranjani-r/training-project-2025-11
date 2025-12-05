@@ -25,10 +25,10 @@ public class config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Product Service API")
-                .description("REST API for Product Management System using Spring Boot and MongoDB")
+                .title("BOOK STORE")
+                .description("REST API for Book Management System using Spring Boot and MongoDB")
                 .version("1.0.0")
-                .contact(new Contact("Product Service", "", ""))
+                .contact(new Contact("Book Service", "", ""))
                 .build();
     }
 }

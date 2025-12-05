@@ -6,9 +6,10 @@ import com.demo.member.DTO.LoginValidationResponseDTO;
 import com.demo.member.DTO.MemberRegisterRequestDTO;
 import com.demo.member.DTO.MemberResponseDTO;
 import com.demo.member.entity.Member;
+import com.demo.member.exception.DuplicateResourceException;
+import com.demo.member.exception.ResourceNotFoundException;
 import com.demo.member.repository.MemberRepository;
 import com.demo.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,13 +28,13 @@ public class MemberServiceImpl implements MemberService {
 
     public MemberResponseDTO register(MemberRegisterRequestDTO request) {
 
-        if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered.");
+        if (memberRepository.findByUserName(request.getUserName()).isPresent()) {
+            throw new DuplicateResourceException("Email already registered.");
         }
 
         Member user = Member.builder()
                 .fullName(request.getFullName())
-                .email(request.getEmail())
+                .userName(request.getUserName())
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
@@ -46,8 +47,8 @@ public class MemberServiceImpl implements MemberService {
 
     public LoginValidationResponseDTO login(LoginRequestDTO request) {
 
-        Member user = memberRepository.findByEmail(request.getEmail())
-                                       .orElseThrow(() -> new RuntimeException("User does not exist"));
+        Member user = memberRepository.findByUserName(request.getUserName())
+                                       .orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new RuntimeException("Invalid credentials");
@@ -56,10 +57,15 @@ public class MemberServiceImpl implements MemberService {
         LoginValidationResponseDTO response = new LoginValidationResponseDTO();
         response.setMember(true);
         response.setUserId(user.getUserId());
-        response.setEmail(user.getEmail());
+        response.setUserName(user.getUserName());
         return response;
     }
 
+    public MemberResponseDTO getProfile(Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+        return convertToDTO(member);
+    }
 
     public static MemberResponseDTO convertToDTO(Member member) {
         MemberResponseDTO dto = new MemberResponseDTO();

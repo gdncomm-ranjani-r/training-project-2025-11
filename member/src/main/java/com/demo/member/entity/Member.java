@@ -23,7 +23,7 @@ public class Member {
     private String fullName;
 
     @Column(name = "email", nullable = false, unique = true, length = 120)
-    private String email;
+    private String userName;
 
     @Column(name = "phone_number", unique = true, length = 15)
     private String phoneNumber;
@@ -37,3 +37,4 @@ public class Member {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 }
+

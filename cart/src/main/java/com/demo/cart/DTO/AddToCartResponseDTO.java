@@ -1,0 +1,14 @@
+package com.demo.cart.DTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AddToCartResponseDTO {
+    private String bookId;
+    private Integer quantity;
+}
+
